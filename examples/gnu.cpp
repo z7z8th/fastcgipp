@@ -99,9 +99,7 @@ L"</html>";
     //! [Response]
 	bool response()
 	{
-        if(
-                environment().pathInfo.size() == 1
-                && environment().pathInfo[0] == L"gnu.png")
+        if(environment().requestUri.find(L"gnu.png") != environment().requestUri.npos)
             image();
         else
             html();
