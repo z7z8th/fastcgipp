@@ -157,6 +157,9 @@ namespace Fastcgipp
             //! REQUEST_URI
             std::basic_string<charT> requestUri;
 
+            //! DOCUMENT_URI
+            std::basic_string<charT> documentUri;
+
             //! Path information
             std::vector<std::basic_string<charT>> pathInfo;
 
@@ -267,6 +270,7 @@ namespace Fastcgipp
                 remotePort(0),
                 ifModifiedSince(0)
             {}
+            Environment(Environment&& rhs) = default;
         private:
             //! Parses "multipart/form-data" http post data
             inline void parsePostsMultipart();

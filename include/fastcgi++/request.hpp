@@ -29,6 +29,7 @@
 #ifndef FASTCGIPP_REQUEST_HPP
 #define FASTCGIPP_REQUEST_HPP
 
+#include "fastcgi++/log.hpp"
 #include "fastcgi++/protocol.hpp"
 #include "fastcgi++/fcgistreambuf.hpp"
 #include "fastcgi++/http.hpp"
@@ -45,6 +46,10 @@ namespace Fastcgipp
     class Request_base
     {
     public:
+        Request_base() = default;
+        Request_base(Request_base&& oldReq) : m_messages(std::move(oldReq.m_messages))
+        {
+        }
         //! Request Handler
         /*!
          * This function is called by Manager::handler() to handle messages
@@ -69,6 +74,14 @@ namespace Fastcgipp
         {
             std::lock_guard<std::mutex> lock(m_messagesMutex);
             m_messages.push(std::move(message));
+            //vlog("+++ Request_base::push message m_messages.size() %d\n", m_messages.size());
+        }
+
+        virtual bool needUpgrade() = 0;
+
+        virtual bool messagesEmptyLocked() {
+            //std::lock_guard<std::mutex> lock(m_messagesMutex);
+            return m_messages.empty();
         }
 
     protected:
@@ -122,6 +135,39 @@ namespace Fastcgipp
             err.imbue(std::locale("C"));
         }
 
+        Request(Request&& rhs):
+                    Request_base(std::move(rhs)),
+                    out(&m_outStreamBuffer),
+                    err(&m_errStreamBuffer),
+                    //m_message(rhs.m_message),
+                    m_callback(rhs.m_callback),
+                    m_environment(std::move(rhs.m_environment)),
+                    m_maxPostSize(std::move(rhs.m_maxPostSize)),
+                    m_role(rhs.m_role),
+                    m_id(rhs.m_id),
+                    m_kill(rhs.m_kill),
+                    m_state(rhs.m_state),
+                    m_send(rhs.m_send),
+                    m_status(rhs.m_status),
+                    m_outStreamBuffer(std::move(rhs.m_outStreamBuffer)),
+                    m_errStreamBuffer(std::move(rhs.m_errStreamBuffer))
+        {
+            using namespace std::placeholders;
+            
+            out.imbue(std::locale("C"));
+            err.imbue(std::locale("C"));
+            /*
+            m_outStreamBuffer.configure(
+                m_id,
+                Protocol::RecordType::OUT,
+                std::bind(m_send, _1, _2, false));
+            m_errStreamBuffer.configure(
+                m_id,
+                Protocol::RecordType::ERR,
+                std::bind(m_send, _1, _2, false));
+            */
+        }
+
         //! Configures the request with the data it needs.
         /*!
          * This function is an "after-the-fact" constructor that build vital
@@ -146,7 +192,29 @@ namespace Fastcgipp
 
         std::unique_lock<std::mutex> handler();
 
-        virtual ~Request() {}
+        virtual ~Request() {
+            //vlog("%s m_messages.size() %d\n", __func__, m_messages.size());
+        }
+
+        Protocol::RequestId id() {
+            return m_id;
+        }
+
+        virtual bool needUpgrade() {
+            return m_shallUpgrade && m_needUpgrade;
+        }
+
+        void needUpgrade(bool upgrade) {
+            m_needUpgrade = upgrade;
+        }
+
+        void shallUpgrade(bool enable) {
+            m_shallUpgrade = enable;
+        }
+        
+        std::basic_string<charT> documentUri() {
+            return m_environment.documentUri;
+        }
 
     protected:
         //! Const accessor for the HTTP environment data
@@ -227,7 +295,7 @@ namespace Fastcgipp
          * @return Boolean value indication completion (true means complete)
          * @sa callback
          */
-        virtual bool response() =0;
+        virtual bool response();
 
         //! Generate a data input response
         /*!
@@ -331,7 +399,7 @@ namespace Fastcgipp
         //! Set the output stream's locale
         void setLocale(const std::string& locale);
 
-    private:
+    protected:
         //! The callback function for dealings outside the fastcgi++ library
         /*!
          * The purpose of the callback object is to provide a thread safe
@@ -351,7 +419,7 @@ namespace Fastcgipp
         Http::Environment<charT> m_environment;
 
         //! The maximum amount of post data, in bytes, that can be recieved
-        const size_t m_maxPostSize;
+        /*const*/ size_t m_maxPostSize;
 
         //! The role that the other side expects this request to play
         Protocol::Role m_role;
@@ -382,7 +450,16 @@ namespace Fastcgipp
 
         //! Codepage
         inline const char* codepage() const;
+
+        bool m_needUpgrade = false;
+        bool m_shallUpgrade = false;
     };
+
+    template <typename charT, typename RequestT>
+    std::unique_ptr<Request<charT>> RequestCreator(Request<charT>&& oldReq) {
+        std::unique_ptr<Request<charT>> request(new RequestT(std::move(oldReq)));
+        return request;
+    }
 }
 
 #endif

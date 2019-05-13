@@ -111,3 +111,45 @@ void Fastcgipp::Logging::header(Level level)
         << std::put_time(std::localtime(&now), L"%b %d %H:%M:%S ")
         << hostname << ' ' << program << ' ' << levels[level];
 }
+
+#include <stdio.h>
+#include <execinfo.h>
+#include <signal.h>
+#include <stdlib.h>
+#include <unistd.h>
+
+void print_backtrace() {
+  dprintf(STDERR_FILENO, "=====> backtrace:\n");
+  void *array[30];
+  size_t size;
+
+  // get void*'s for all entries on the stack
+  size = backtrace(array, 30);
+
+  // print out all the frames to stderr
+  backtrace_symbols_fd(array, size, STDERR_FILENO);
+  dprintf(STDERR_FILENO, "\n");
+}
+
+void faultHandler(int sig) {
+  dprintf(STDERR_FILENO, "Error: signal %d:\n", sig);
+  print_backtrace();
+  exit(1);
+}
+
+void terminateHandler() {
+    faultHandler();
+}
+
+std::string wstring2string(const std::wstring &toConvert) {
+    //std::wstring string_to_convert;
+
+    //setup converter
+    using convert_type = std::codecvt_utf8<wchar_t>;
+    std::wstring_convert<convert_type, wchar_t> converter;
+
+    //use converter (.to_bytes: wstr->str, .from_bytes: str->wstr)
+    std::string converted_str = converter.to_bytes( toConvert );
+    return converted_str;
+}
+

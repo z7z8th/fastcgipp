@@ -268,45 +268,63 @@ void Fastcgipp::Manager_base::handler()
             m_tasks.pop();
             tasksLock.unlock();
 
-            if(id.m_id == 0)
+            if(id.m_id == 0) {
                 localHandler();
-            else
-            {
-                requestsReadLock.lock();
-                auto request = m_requests.find(id);
-                if(request != m_requests.end())
-                {
-                    std::unique_lock<std::mutex> requestLock(
-                            request->second->mutex,
-                            std::try_to_lock);
-                    requestsReadLock.unlock();
+                tasksLock.lock();
+                continue;
+            }
 
-                    if(requestLock)
-                    {
-                        auto lock = request->second->handler();
-                        if(!lock || !id.m_socket.valid())
-                        {
-#if FASTCGIPP_LOG_LEVEL > 3
-                            if(!id.m_socket.valid())
-                                ++m_badSocketKillCount;
-#endif
-                            if(lock)
-                                lock.unlock();
-                            requestsWriteLock.lock();
-                            requestLock.unlock();
-                            m_requests.erase(request);
-                            requestsWriteLock.unlock();
+            requestsReadLock.lock();
+            auto request = m_requests.find(id);
+            if(request != m_requests.end())
+            {
+                std::unique_lock<std::mutex> requestLock(request->second->mutex, std::try_to_lock);
+                requestsReadLock.unlock();
+
+                if(requestLock)
+                {
+                    if (request->second->needUpgrade()) {
+                        requestsWriteLock.lock();
+                        requestLock.unlock();
+                        auto newReq = upgradeRequest(std::move(request->second));
+                        if (newReq) {
+                            request->second = std::move(newReq);
                         }
-                        else
-                        {
-                            requestLock.unlock();
-                            lock.unlock();
-                        }
+                        requestLock = std::unique_lock<std::mutex>(request->second->mutex, std::try_to_lock);
+                        requestsWriteLock.unlock();
                     }
                 }
-                else
-                    requestsReadLock.unlock();
+                if(requestLock)
+                {
+                    auto lock = request->second->handler();
+                    if(!lock || !id.m_socket.valid())
+                    {
+#if FASTCGIPP_LOG_LEVEL > 3
+                        if(!id.m_socket.valid())
+                            ++m_badSocketKillCount;
+#endif
+                        if(lock)
+                            lock.unlock();
+                        requestsWriteLock.lock();
+                        requestLock.unlock();
+                        m_requests.erase(request);
+                        requestsWriteLock.unlock();
+                    }
+                    else
+                    {
+                        if (!request->second->messagesEmptyLocked())
+                        {
+                            tasksLock.lock();
+                            m_tasks.push(id);
+                            tasksLock.unlock();
+                        }
+                        lock.unlock();
+                        requestLock.unlock();
+                    }
+                }
             }
+            else
+                requestsReadLock.unlock();
             tasksLock.lock();
         }
 
@@ -331,7 +349,7 @@ void Fastcgipp::Manager_base::handler()
 
 void Fastcgipp::Manager_base::push(Protocol::RequestId id, Message&& message)
 {
-    if(id.m_id == 0)
+    if(id.m_id == 0)  // management record
     {
 #if FASTCGIPP_LOG_LEVEL > 3
         ++m_managementRecordCount;
@@ -339,7 +357,7 @@ void Fastcgipp::Manager_base::push(Protocol::RequestId id, Message&& message)
         std::lock_guard<std::mutex> lock(m_messagesMutex);
         m_messages.push(std::make_pair(std::move(message), id.m_socket));
     }
-    else if(id.m_id == Protocol::badFcgiId)
+    else if(id.m_id == Protocol::badFcgiId)  // bad record
     {
 #if FASTCGIPP_LOG_LEVEL > 3
         ++m_badSocketMessageCount;

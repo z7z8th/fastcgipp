@@ -29,6 +29,7 @@
 #ifndef FASTCGIPP_FCGISTREAMBUF_HPP
 #define FASTCGIPP_FCGISTREAMBUF_HPP
 
+#include "fastcgi++/log.hpp"
 #include "fastcgi++/protocol.hpp"
 #include "fastcgi++/webstreambuf.hpp"
 #include "fastcgi++/block.hpp"
@@ -58,6 +59,14 @@ namespace Fastcgipp
         FcgiStreambuf()
         {
             this->setp(m_buffer, m_buffer+s_buffSize);
+        }
+
+        FcgiStreambuf(FcgiStreambuf&& rhs):
+            WebStreambuf<charT, traits>(std::move(rhs)),
+            m_id(std::move(rhs.m_id)),
+            m_type(rhs.m_type),
+            send(std::move(rhs.send))
+        {
         }
 
         ~FcgiStreambuf()

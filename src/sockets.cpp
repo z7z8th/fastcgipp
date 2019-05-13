@@ -117,6 +117,7 @@ Fastcgipp::Poll::Result Fastcgipp::Poll::poll(int timeout)
 #endif
     }
 
+    //vlog("Poll::poll result socket %d event 0x%x\n", result.m_socket, result.m_events);
     return result;
 }
 
@@ -191,6 +192,8 @@ ssize_t Fastcgipp::Socket::write(const char* buffer, size_t size) const
 
 void Fastcgipp::Socket::close() const
 {
+    //print_backtrace();
+    //vlog("Socket::close() socket_t %d valid %d\n", valid() ? m_data->m_socket : -1, valid());
     if(valid())
     {
         ::shutdown(m_data->m_socket, SHUT_RDWR);
@@ -209,6 +212,7 @@ Fastcgipp::Socket::~Socket()
 {
     if(m_original && valid())
     {
+        //vlog("*** %s do shutdown && close socket_t %d\n", __func__, m_data->m_socket);
         ::shutdown(m_data->m_socket, SHUT_RDWR);
         m_data->m_group.m_poll.del(m_data->m_socket);
         ::close(m_data->m_socket);

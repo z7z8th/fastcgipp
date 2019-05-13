@@ -256,6 +256,8 @@ template<class charT> void Fastcgipp::Http::Environment<charT>::fill(
             }
             else if(std::equal(name, value, "QUERY_STRING"))
                 decodeUrlEncoded(value, end, gets);
+            else if(std::equal(name, value, "DOCUMENT_URI"))
+                vecToString(value, end, documentUri);
             else
                 processed=false;
             break;

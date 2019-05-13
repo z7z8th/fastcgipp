@@ -31,6 +31,7 @@
 
 template<class charT> void Fastcgipp::Request<charT>::complete()
 {
+    //vlog("%s kill %d\n", __PRETTY_FUNCTION__, m_kill);
     out.flush();
     err.flush();
 
@@ -53,10 +54,10 @@ template<class charT> void Fastcgipp::Request<charT>::complete()
 }
 
 template<class charT>
-std::unique_lock<std::mutex>Fastcgipp::Request<charT>::handler()
+std::unique_lock<std::mutex> Fastcgipp::Request<charT>::handler()
 {
     std::unique_lock<std::mutex> lock(m_messagesMutex);
-    while(!m_messages.empty())
+    while(!needUpgrade() && !m_messages.empty())
     {
         Message message = std::move(m_messages.front());
         m_messages.pop();
@@ -100,13 +101,8 @@ std::unique_lock<std::mutex>Fastcgipp::Request<charT>::handler()
 
                     if(header.contentLength == 0)
                     {
-                        if(environment().contentLength > m_maxPostSize)
-                        {
-                            bigPostErrorHandler();
-                            complete();
-                            goto exit;
-                        }
                         m_state = Protocol::RecordType::IN;
+                        needUpgrade(true);
                         lock.lock();
                         continue;
                     }
@@ -117,6 +113,14 @@ std::unique_lock<std::mutex>Fastcgipp::Request<charT>::handler()
 
                 case Protocol::RecordType::IN:
                 {
+                    if (!needUpgrade()) {
+                        if(environment().contentLength > m_maxPostSize)
+                        {
+                            bigPostErrorHandler();
+                            complete();
+                            goto exit;
+                        }
+                    }
                     if(header.contentLength==0)
                     {
                         if(!inProcessor() && !m_environment.parsePostBuffer())
@@ -165,6 +169,7 @@ std::unique_lock<std::mutex>Fastcgipp::Request<charT>::handler()
         lock.lock();
     }
 exit:
+    //vlog("exit %s needUpgrade %d m_messages.size() %d lock %d\n", __func__, needUpgrade(), m_messages.size(), (bool)lock);
     return lock;
 }
 
@@ -214,6 +219,25 @@ template<class charT> void Fastcgipp::Request<charT>::unknownContentErrorHandler
         "<h1>415 Unsupported Media Type</h1>"\
     "</body>"\
 "</html>";
+}
+
+template<class charT> bool Fastcgipp::Request<charT>::response() {
+    vlog("\n*** response not implemented. return 404.\n\n");
+    out << 
+R"(Status: 404 Not Found
+Content-Type: text/html; charset=utf-8
+
+<!DOCTYPE html>
+<html lang='en'>
+    <head>
+        <title>Not Implemented</title>
+    </head>
+    <body>
+        <h1>Not Implemented</h1>
+        <h2>This is the default reponse()</h2>
+    </body>
+</html>)";
+    return true;
 }
 
 template<class charT> void Fastcgipp::Request<charT>::configure(

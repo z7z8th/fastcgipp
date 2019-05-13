@@ -38,6 +38,7 @@
 #include <memory>
 #include <functional>
 
+#include "fastcgi++/log.hpp"
 #include "fastcgi++/protocol.hpp"
 #include "fastcgi++/transceiver.hpp"
 #include "fastcgi++/request.hpp"
@@ -193,6 +194,11 @@ namespace Fastcgipp
          */
         void resizeThreads(unsigned threads);
 
+        virtual std::unique_ptr<Request_base> upgradeRequest(std::unique_ptr<Request_base> oldReq) {
+            vlog("*** WARNING  upgradeRequest not defined. return nullptr.");
+            return nullptr;
+        }
+
     protected:
         //! Make a request object
         virtual std::unique_ptr<Request_base> makeRequest(
@@ -311,7 +317,8 @@ namespace Fastcgipp
             Manager_base(threads)
         {}
 
-    private:
+    protected:
+        bool m_shallUpgradeRequest = false;
         //! Make a request object
         std::unique_ptr<Request_base> makeRequest(
                 const Protocol::RequestId& id,
@@ -327,9 +334,53 @@ namespace Fastcgipp
                     kill,
                     std::bind(&Transceiver::send, &m_transceiver, _1, _2, _3),
                     std::bind(&Manager_base::push, this, id, _1));
+            if (m_shallUpgradeRequest)
+                request->shallUpgrade(true);
             return request;
         }
 
+    };
+
+    template <typename charT, typename RequestT = Request<charT>>
+    class MultiUriRouter: public Manager<RequestT>
+    {
+    public:
+        MultiUriRouter(unsigned threads = std::thread::hardware_concurrency()) : 
+                Manager<RequestT>::Manager(threads)
+        {
+            Manager<RequestT>::m_shallUpgradeRequest = true;
+        }
+
+    public:
+        using requestCreator = std::function<std::unique_ptr<RequestT> (RequestT&& oldReq)>;
+        using stringT = std::basic_string<charT>;
+        //template <typename... Args>
+        void routeUri(const stringT& uri, const requestCreator &creator) {
+            auto ret = uriRouteMap.insert(std::pair<stringT, requestCreator>(uri, creator));
+            if (!ret.second)
+                vlog("routeUri insert into map failed.\n");
+        }
+
+        std::unique_ptr<Request_base> upgradeRequest(std::unique_ptr<Request_base> oldReq) {
+            //vlog("%s\n", __func__);
+            std::unique_ptr<RequestT> tmpReq(static_cast<RequestT *>(oldReq.release()));
+
+            auto uri = tmpReq->documentUri();
+            //vwlog(L"upgradeRequest uri %ls\n", uri.c_str());
+             auto found = uriRouteMap.find(uri);
+            if (found == uriRouteMap.end()) {
+                vwlog(L"*** upgradeRequest no creator for %ls.\n", uri.c_str());
+                tmpReq->shallUpgrade(false);
+                return tmpReq;
+            }
+            const auto& creator = found->second;
+            std::unique_ptr<RequestT> request = creator(std::move(*tmpReq));
+
+            return request;
+        }
+
+    private:
+        std::map<stringT, requestCreator> uriRouteMap;
     };
 }
 

@@ -1,0 +1,4 @@
+
+catch throw
+
+run -p 2000 -n ./helloworld.fcgi
