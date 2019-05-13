@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.8)
+cmake_minimum_required(VERSION 3.7)
 project(fastcgi++ VERSION 3.1 LANGUAGES CXX)
 
 string(TIMESTAMP BUILD_TIME UTC)
@@ -111,7 +111,10 @@ set_target_properties(fastcgipp PROPERTIES VERSION ${PROJECT_VERSION}
 
 find_package(Threads REQUIRED)
 target_link_libraries(fastcgipp PUBLIC Threads::Threads)
-target_compile_features(fastcgipp PRIVATE cxx_std_14)
+#target_compile_features(fastcgipp PRIVATE cxx_std_14)
+set(CMAKE_CXX_STANDARD 14)
+set(CMAKE_CXX_STANDARD_REQUIRED on)
+set(CMAKE_CXX_EXTENSIONS off)
 if(UNIX)
     if(CMAKE_CXX_COMPILER_ID MATCHES "GNU" OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
         target_compile_options(fastcgipp PRIVATE -Wall -Werror -fno-omit-frame-pointer)
