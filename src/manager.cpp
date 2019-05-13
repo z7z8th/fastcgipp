@@ -297,6 +297,7 @@ void Fastcgipp::Manager_base::handler()
                 if(requestLock)
                 {
                     auto lock = request->second->handler();
+                    vlog("after request handler lock %d messages.empty() %d\n", static_cast<bool>(lock), request->second->messagesEmptyLocked());
                     if(!lock || !id.m_socket.valid())
                     {
                         vlog("%s after request->handler() lock %d id.m_socket.valid %d\n",
@@ -314,8 +315,15 @@ void Fastcgipp::Manager_base::handler()
                     }
                     else
                     {
-                        requestLock.unlock();
+                        if (!request->second->messagesEmptyLocked())
+                        {
+                            tasksLock.lock();
+                            vlog("requeue task id\n");
+                            m_tasks.push(id);
+                            tasksLock.unlock();
+                        }
                         lock.unlock();
+                        requestLock.unlock();
                     }
                 }
             }

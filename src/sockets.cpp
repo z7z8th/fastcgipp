@@ -215,7 +215,7 @@ void Fastcgipp::Socket::close() const
 
 Fastcgipp::Socket::~Socket()
 {
-    vlog("%s socket_t %d m_original %d valid %d\n", __func__, valid() ? m_data->m_socket : -1, m_original, valid());
+    //vlog("%s socket_t %d m_original %d valid %d\n", __func__, valid() ? m_data->m_socket : -1, m_original, valid());
     if(m_original && valid())
     {
         vlog("*** %s do shutdown && close socket_t %d\n", __func__, m_data->m_socket);

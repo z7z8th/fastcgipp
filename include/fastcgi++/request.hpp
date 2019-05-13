@@ -80,6 +80,11 @@ namespace Fastcgipp
 
         virtual bool needUpgrade() = 0;
 
+        virtual bool messagesEmptyLocked() {
+            //std::lock_guard<std::mutex> lock(m_messagesMutex);
+            return m_messages.empty();
+        }
+
     protected:
         //! A queue of message for the request
         std::queue<Message> m_messages;

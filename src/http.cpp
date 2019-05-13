@@ -43,9 +43,9 @@ void Fastcgipp::Http::vecToString(
         const char* end,
         std::wstring& string)
 {
-    std::string tmp;
-    tmp.assign(start, end);
-    vlog("%s %s\n", __func__, tmp.c_str());
+    //std::string tmp;
+    //tmp.assign(start, end);
+    //vlog("%s %s\n", __func__, tmp.c_str());
 
     std::wstring_convert<std::codecvt_utf8<wchar_t>, wchar_t> converter;
     try

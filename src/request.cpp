@@ -54,7 +54,7 @@ template<class charT> void Fastcgipp::Request<charT>::complete()
 }
 
 template<class charT>
-std::unique_lock<std::mutex>Fastcgipp::Request<charT>::handler()
+std::unique_lock<std::mutex> Fastcgipp::Request<charT>::handler()
 {
     std::unique_lock<std::mutex> lock(m_messagesMutex);
     while(!needUpgrade() && !m_messages.empty())
@@ -170,7 +170,7 @@ std::unique_lock<std::mutex>Fastcgipp::Request<charT>::handler()
         lock.lock();
     }
 exit:
-    vlog("exit %s needUpgrade %d m_messages.size() %d\n", __func__, needUpgrade(), m_messages.size());
+    vlog("exit %s needUpgrade %d m_messages.size() %d lock %d\n", __func__, needUpgrade(), m_messages.size(), (bool)lock);
     return lock;
 }
 

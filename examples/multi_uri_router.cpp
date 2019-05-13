@@ -304,7 +304,7 @@ int main()
 
     //freopen("/dev/tty", "a", stderr);
     
-    Fastcgipp::MultiUriRouter<wchar_t> manager(1);
+    Fastcgipp::MultiUriRouter<wchar_t> manager;
 
     Fastcgipp::MultiUriRouter<wchar_t>::requestCreator f1(Fastcgipp::RequestCreator<wchar_t, HelloWorld>);
     //Fastcgipp::MultiUriRouter<wchar_t>::requestCreator f2(Fastcgipp::RequestCreator<wchar_t, Echo>);

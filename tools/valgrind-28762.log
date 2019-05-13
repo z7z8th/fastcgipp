@@ -1,0 +1,471 @@
+==28762== drd, a thread error detector
+==28762== Copyright (C) 2006-2015, and GNU GPL'd, by Bart Van Assche.
+==28762== Using Valgrind-3.12.0.SVN and LibVEX; rerun with -h for copyright info
+==28762== Command: ./multi_uri_router.fcgi
+==28762== Parent PID: 28761
+==28762== 
+==28762== Started using memory range 0x108000 + 192512
+==28762== Started using memory range 0x336000 + 8192
+==28762== Started using memory range 0x4000000 + 143360
+==28762== Started using memory range 0x4223000 + 8192
+==28762== Started using memory range 0x4225000 + 4096
+==28762== Started using memory range 0x4226000 + 4096
+==28762== Started using memory range 0x38085000 + 4096
+==28762== Started using memory range 0xffefff000 + 8192
+==28762== Started using memory range 0x38085218 + 101
+==28762== Started using memory range 0x4226000 + 4096
+==28762== Stopped using memory range 0x4226000 + 4096
+==28762== Started using memory range 0x4a26000 + 2105344
+==28762== Started using memory range 0x4c26000 + 8192
+==28762== Started using memory range 0x4023000 + 8192
+==28762== Started using memory range 0x4c28000 + 2236416
+==28762== Started using memory range 0x4e48000 + 8192
+==28762== Started using memory range 0x4e4a000 + 3284992
+==28762== Started using memory range 0x5163000 + 36864
+==28762== Started using memory range 0x4025000 + 110592
+==28762== Started using memory range 0x516c000 + 2215936
+==28762== Started using memory range 0x5383000 + 8192
+==28762== Started using memory range 0x5385000 + 16384
+==28762== Started using memory range 0x5389000 + 3678208
+==28762== Started using memory range 0x56fb000 + 49152
+==28762== Started using memory range 0x5707000 + 16384
+==28762== Started using memory range 0x570b000 + 3162112
+==28762== Started using memory range 0x5a0d000 + 8192
+==28762== Started using memory range 0x5a0f000 + 2191360
+==28762== Started using memory range 0x5c24000 + 8192
+==28762== Started using memory range 0x4040000 + 8192
+==28762== Started using memory range 0x5c26000 + 3796992
+==28762== Started using memory range 0x5fbb000 + 24576
+==28762== Started using memory range 0x5fc1000 + 16384
+==28762== Started using memory range 0x4042000 + 12288
+==28762== Started using memory range 0x4045000 + 12288
+==28762== Stopped using memory range 0x4025000 + 110592
+==28762== Started using memory range 0x5fc5030 + 72704
+==28762== Started using memory range 0x5fd6c50 + 36
+==28762== Started using memory range 0x5fd6ca0 + 36
+==28762== Started using memory range 0x5fd6cf0 + 40
+==28762== Started using memory range 0x5fd6d40 + 48
+==28762== Started using memory range 0x5fd6d90 + 40
+==28762== Started using memory range 0x5fd6de0 + 60
+==28762== Started using memory range 0x5fd6e40 + 40
+==28762== Started using memory range 0x5fd6e90 + 124
+==28762== Stopped using memory range 0x5fd6e40 + 40
+==28762== Started using memory range 0x5fd6e40 + 40
+==28762== Started using memory range 0x5fd6f30 + 464
+==28762== Started using memory range 0x5fd7120 + 2052
+==28762== Stopped using memory range 0x5fd6f30 + 464
+==28762== Started using memory range 0x5fd6f30 + 124
+==28762== Stopped using memory range 0x5fd7120 + 2052
+==28762== Stopped using memory range 0x5fd6e40 + 40
+==28762== Started using memory range 0x5fd6fd0 + 72
+==28762== Started using memory range 0x5fd7040 + 72
+==28762== Started using memory range 0x5fd70b0 + 72
+==28762== Started using memory range 0x5fd7120 + 72
+==28762== Started using memory range 0x5fd7190 + 72
+==28762== Started using memory range 0x5fd6e40 + 28
+==28762== Started using memory range 0x5fd7200 + 20
+==28762== Started using memory range 0x5fd7240 + 20
+==28762== Started using memory range 0x5fd7280 + 24
+==28762== Started using memory range 0x5fd72c0 + 28
+==28762== Started using memory range 0x5fd7300 + 72
+==28762== Started using memory range 0x5fd7370 + 28
+==28762== Started using memory range 0x5fd73b0 + 72
+==28762== Started using memory range 0x5fd7420 + 20
+==28762== Started using memory range 0x5fd7460 + 72
+==28762== Started using memory range 0x5fd74d0 + 20
+==28762== Started using memory range 0x5fd7510 + 72
+==28762== Started using memory range 0x5fd7580 + 24
+==28762== Started using memory range 0x5fd75c0 + 72
+==28762== Started using memory range 0x5fd7630 + 28
+==28762== Stopped using memory range 0x5fd72c0 + 28
+==28762== Stopped using memory range 0x5fd7280 + 24
+==28762== Stopped using memory range 0x5fd7240 + 20
+==28762== Stopped using memory range 0x5fd7200 + 20
+==28762== Stopped using memory range 0x5fd6e40 + 28
+==28762== Started using memory range 0x5fd7200 + 72
+==28762== Started using memory range 0x5fd7270 + 72
+==28762== Started using memory range 0x5fd7670 + 72
+==28762== Started using memory range 0x5fd76e0 + 72
+==28762== Started using memory range 0x5fd7750 + 72
+==28762== Started using memory range 0x5fd77c0 + 72
+==28762== Started using memory range 0x5fd7830 + 72
+==28762== Started using memory range 0x5fd78a0 + 72
+==28762== Started using memory range 0x5fd7910 + 72
+==28762== Started using memory range 0x5fd7980 + 72
+==28762== Started using memory range 0x5fd79f0 + 72
+==28762== Started using memory range 0x5fd7a60 + 72
+==28762== Started using memory range 0x5fd7ad0 + 72
+==28762== Started using memory range 0x5fd7b40 + 72
+==28762== Started using memory range 0x5fd7bb0 + 72
+==28762== Started using memory range 0x5fd7c20 + 72
+==28762== Started using memory range 0x5fd7c90 + 72
+==28762== Started using memory range 0x5fd7d00 + 72
+==28762== Started using memory range 0x5fd7d70 + 72
+==28762== Started using memory range 0x5fd7de0 + 72
+==28762== Started using memory range 0x5fd7e50 + 72
+==28762== Started using memory range 0x5fd7ec0 + 72
+==28762== Started using memory range 0x5fd7f30 + 72
+==28762== Started using memory range 0x5fd7fa0 + 72
+==28762== Started using memory range 0x5fd8010 + 72
+==28762== Started using memory range 0x5fd8080 + 72
+==28762== Started using memory range 0x5fd80f0 + 72
+==28762== Started using memory range 0x5fd8160 + 72
+==28762== Started using memory range 0x5fd81d0 + 72
+==28762== Started using memory range 0x5fd8240 + 72
+==28762== Started using memory range 0x5fd82b0 + 72
+==28762== Started using memory range 0x5fd8320 + 72
+==28762== Started using memory range 0x5fd8390 + 72
+==28762== Started using memory range 0x5fd8400 + 72
+==28762== Started using memory range 0x5fd8470 + 72
+==28762== Started using memory range 0x5fd84e0 + 72
+==28762== Started using memory range 0x5fd8550 + 72
+==28762== Started using memory range 0x5fd85c0 + 72
+==28762== Started using memory range 0x5fd8630 + 72
+==28762== Started using memory range 0x5fd86a0 + 72
+==28762== Started using memory range 0x5fd8710 + 72
+==28762== Started using memory range 0x5fd8780 + 72
+==28762== Started using memory range 0x5fd87f0 + 72
+==28762== Started using memory range 0x5fd8860 + 72
+==28762== Started using memory range 0x5fd88d0 + 72
+==28762== Started using memory range 0x5fd8940 + 72
+==28762== Started using memory range 0x5fd6e40 + 24
+==28762== Started using memory range 0x5fd89b0 + 64
+==28762== Started using memory range 0x5fd8a10 + 512
+==28762== Started using memory range 0x5fd8c30 + 24
+==28762== Started using memory range 0x5fd8c70 + 64
+==28762== Started using memory range 0x5fd8cd0 + 512
+==28762== Started using memory range 0x5fd8ef0 + 15
+==28762== Started using memory range 0x5fd8f20 + 552
+==28762== Started using memory range 0x5fd9170 + 4096
+==28762== Started using memory range 0x5fda190 + 758
+==28762== Stopped using memory range 0x5fd9170 + 4096
+==28762== Stopped using memory range 0x5fd8f20 + 552
+==28762== Started using memory range 0x5fd8f20 + 20
+==28762== Started using memory range 0x5fd8f60 + 20
+==28762== Started using memory range 0x5fd8fa0 + 21
+==28762== Started using memory range 0x5fd8fe0 + 20
+==28762== Started using memory range 0x5fd9020 + 1024
+==28762== Started using memory range 0x5fda4b0 + 4096
+==28762== Started using memory range 0x5fd9440 + 160
+==28762== Stopped using memory range 0x5fd9440 + 160
+==28762== Stopped using memory range 0x5fd8ef0 + 15
+==28762== Started using memory range 0x5fd8ef0 + 15
+==28762== Started using memory range 0x5fd9440 + 156
+==28762== Stopped using memory range 0x5fd9440 + 156
+==28762== Stopped using memory range 0x5fd6e40 + 24
+==28762== Started using memory range 0x5fd9440 + 64
+==28762== Started using memory range 0x5fd94a0 + 512
+==28762== Started using memory range 0x5fd96c0 + 64
+==28762== Started using memory range 0x5fd9720 + 512
+==28762== Stopped using memory range 0x5fd9720 + 512
+==28762== Stopped using memory range 0x5fd96c0 + 64
+==28762== Started using memory range 0x5fd96c0 + 64
+==28762== Started using memory range 0x5fd9720 + 504
+==28762== Started using memory range 0x5fd9940 + 64
+==28762== Started using memory range 0x5fd99a0 + 504
+==28762== Stopped using memory range 0x5fd99a0 + 504
+==28762== Stopped using memory range 0x5fd9940 + 64
+==28762== Started using memory range 0x5fd6e40 + 16
+==28762== Stopped using memory range 0x5fd8ef0 + 15
+==28762== Started using memory range 0x5fd8ef0 + 15
+==28762== Started using memory range 0x5fd9940 + 164
+==28762== Stopped using memory range 0x5fd9940 + 164
+==28762== Started using memory range 0x5fd9940 + 60
+==28762== Started using memory range 0x5fd99a0 + 60
+==28762== Started using memory range 0x5fd9a00 + 96
+==28762== Stopped using memory range 0x5fd9940 + 60
+==28762== Started using memory range 0x5fd9940 + 56
+==28762== Started using memory range 0x5fd9a80 + 56
+==28762== Started using memory range 0x5fd9ae0 + 96
+==28762== Stopped using memory range 0x5fd9940 + 56
+==28762== Started using memory range 0x5fd9940 + 40
+==28762== Stopped using memory range 0x5fd8ef0 + 15
+==28762== Started using memory range 0x5fd8ef0 + 15
+==28762== Started using memory range 0x5fd9b60 + 104
+==28762== Stopped using memory range 0x5fd9b60 + 104
+==28762== Started using memory range 0x5fd9b60 + 32
+==28762== Started using memory range 0x63c5000 + 8392704 (inside pthread_create())
+==28762== Started using memory range 0x5fd9ba0 + 288 (inside pthread_create())
+==28762== Started using memory range 0x5fd9ce0 + 48
+==28762== Started using memory range 0x5fd9d30 + 1024
+==28762== Stopped using memory range 0x5fd9ce0 + 48
+==28762== Started using memory range 0x5fda150 + 32
+==28762== Started using memory range 0x6bc6000 + 8392704 (inside pthread_create())
+==28762== Started using memory range 0x5fdb4d0 + 288 (inside pthread_create())
+==28762== Started using memory range 0x5fd9ce0 + 48
+==28762== Stopped using memory range 0x5fd9ce0 + 48
+==28762== Started using memory range 0x5fd9ce0 + 32
+==28762== Started using memory range 0x73c7000 + 8392704 (inside pthread_create())
+==28762== Started using memory range 0x5fdb610 + 288 (inside pthread_create())
+==28762== Started using memory range 0x5fdb750 + 48
+==28762== Stopped using memory range 0x5fd9d30 + 1024
+==28762== Stopped using memory range 0x5fdb750 + 48
+==28762== Started using memory range 0x5fd9d30 + 1024
+==28762== Stopped using memory range 0x5fd9d30 + 1024
+==28762== Started using memory range 0x5fd9d30 + 1024
+==28762== Stopped using memory range 0x5fd9d30 + 1024
+==28762== Started using memory range 0x5fd9d30 + 16
+==28762== Started using memory range 0x5fd9d60 + 24
+==28762== Started using memory range 0x5fd9da0 + 64
+==28762== Started using memory range 0x5fdb750 + 1024
+==28762== Stopped using memory range 0x5fdb750 + 1024
+==28762== Started using memory range 0x5fdb750 + 1024
+==28762== Stopped using memory range 0x5fdb750 + 1024
+==28762== Started using memory range 0x5fdb750 + 1024
+==28762== Stopped using memory range 0x5fdb750 + 1024
+==28762== Started using memory range 0x5fd9e00 + 80
+==28762== Started using memory range 0x5fd9e70 + 8
+==28762== Started using memory range 0x5fd9ea0 + 16
+==28762== Stopped using memory range 0x5fd9e70 + 8
+==28762== Started using memory range 0x5fd9ed0 + 72
+==28762== Started using memory range 0x5fdb750 + 67424
+==28762== Started using memory range 0x5fd9f40 + 64
+==28762== Started using memory range 0x5febed0 + 512
+==28762== Started using memory range 0x5fd9fa0 + 64
+==28762== Started using memory range 0x5fec0f0 + 512
+==28762== Stopped using memory range 0x5fec0f0 + 512
+==28762== Stopped using memory range 0x5fd9fa0 + 64
+==28762== Started using memory range 0x5fd9fa0 + 56
+==28762== Started using memory range 0x5fda000 + 24
+==28762== Started using memory range 0x5fda040 + 56
+==28762== Started using memory range 0x5fda0a0 + 24
+==28762== Started using memory range 0x5fda0e0 + 24
+==28762== Started using memory range 0x5fec0f0 + 40
+==28762== Started using memory range 0x5fec140 + 40
+==28762== Started using memory range 0x5fec190 + 24
+==28762== Stopped using memory range 0x5fda0e0 + 24
+==28762== Stopped using memory range 0x5fec0f0 + 40
+==28762== Started using memory range 0x5fec0f0 + 24
+==28762== Started using memory range 0x5fda0e0 + 40
+==28762== Started using memory range 0x5fec1d0 + 40
+==28762== Started using memory range 0x5fec220 + 24
+==28762== Stopped using memory range 0x5fec0f0 + 24
+==28762== Stopped using memory range 0x5fda0e0 + 40
+==28762== Stopped using memory range 0x5fda000 + 24
+==28762== Stopped using memory range 0x5fd9fa0 + 56
+==28762== Stopped using memory range 0x5fd9ea0 + 16
+==28762== Started using memory range 0x5fec260 + 1024
+==28762== Stopped using memory range 0x5fec260 + 1024
+==28762== Started using memory range 0x5fec260 + 1024
+==28762== Stopped using memory range 0x5fec260 + 1024
+==28762== Started using memory range 0x5fec260 + 1024
+==28762== Stopped using memory range 0x5fec260 + 1024
+==28762== Started using memory range 0x5fec260 + 1024
+==28762== Stopped using memory range 0x5fec260 + 1024
+==28762== Started using memory range 0x5fec0f0 + 8
+==28762== Started using memory range 0x5fec260 + 600
+==28762== Stopped using memory range 0x5fec0f0 + 8
+==28762== Started using memory range 0x5fec4e0 + 1024
+==28762== Stopped using memory range 0x5fec4e0 + 1024
+==28762== Started using memory range 0x5fec4e0 + 1024
+==28762== Stopped using memory range 0x5fec4e0 + 1024
+==28762== Started using memory range 0x5fec4e0 + 1024
+==28762== Stopped using memory range 0x5fec4e0 + 1024
+==28762== Started using memory range 0x5fec4e0 + 1024
+==28762== Stopped using memory range 0x5fec4e0 + 1024
+==28762== Started using memory range 0x5fec0f0 + 40
+==28762== Started using memory range 0x5fec4e0 + 304
+==28762== Stopped using memory range 0x5fec0f0 + 40
+==28762== Started using memory range 0x5fec0f0 + 40
+==28762== Started using memory range 0x5fec630 + 584
+==28762== Stopped using memory range 0x5fec0f0 + 40
+==28762== Started using memory range 0x5fd9fa0 + 96
+==28762== Started using memory range 0x5fd9e70 + 64
+==28762== Started using memory range 0x5fec8a0 + 120
+==28762== Stopped using memory range 0x5fec630 + 584
+==28762== Stopped using memory range 0x5fec4e0 + 304
+==28762== Started using memory range 0x5fec0f0 + 40
+==28762== Stopped using memory range 0x5fec0f0 + 40
+==28762== Started using memory range 0x5fec0f0 + 40
+==28762== Started using memory range 0x5fec4e0 + 264
+==28762== Stopped using memory range 0x5fec0f0 + 40
+==28762== Started using memory range 0x5fec0f0 + 40
+==28762== Started using memory range 0x5fec610 + 264
+==28762== Stopped using memory range 0x5fec0f0 + 40
+==28762== Started using memory range 0x5fec940 + 1024
+==28762== Stopped using memory range 0x5fec940 + 1024
+==28762== Started using memory range 0x5fec940 + 1024
+==28762== Stopped using memory range 0x5fec940 + 1024
+==28762== Started using memory range 0x5fec0f0 + 8
+==28762== Started using memory range 0x5fec940 + 1024
+==28762== Stopped using memory range 0x5fec940 + 1024
+==28762== Started using memory range 0x5fec940 + 1024
+==28762== Stopped using memory range 0x5fec940 + 1024
+==28762== Started using memory range 0x5fec940 + 1024
+==28762== Stopped using memory range 0x5fec940 + 1024
+==28762== Started using memory range 0x5fec940 + 1024
+==28762== Stopped using memory range 0x5fec940 + 1024
+==28762== Started using memory range 0x5fec940 + 1024
+==28762== Stopped using memory range 0x5fec940 + 1024
+==28762== Started using memory range 0x5fda0e0 + 8
+==28762== Started using memory range 0x5fec940 + 1024
+==28762== Stopped using memory range 0x5fec940 + 1024
+==28762== Started using memory range 0x5fec940 + 1024
+==28762== Stopped using memory range 0x5fec940 + 1024
+==28762== Started using memory range 0x5fec940 + 1024
+==28762== Stopped using memory range 0x5fec940 + 1024
+==28762== Started using memory range 0x5fec740 + 40
+==28762== Started using memory range 0x5fec940 + 244
+==28762== Stopped using memory range 0x5fec740 + 40
+==28762== Started using memory range 0x5fec740 + 40
+==28762== Started using memory range 0x5feca60 + 264
+==28762== Stopped using memory range 0x5fec740 + 40
+==28762== Started using memory range 0x5fec740 + 96
+==28762== Started using memory range 0x5fec7c0 + 52
+==28762== Started using memory range 0x5fec820 + 56
+==28762== Stopped using memory range 0x5feca60 + 264
+==28762== Stopped using memory range 0x5fec940 + 244
+==28762== Started using memory range 0x5fec940 + 40
+==28762== Started using memory range 0x5fec990 + 324
+==28762== Stopped using memory range 0x5fec940 + 40
+==28762== Started using memory range 0x5fec940 + 40
+==28762== Started using memory range 0x5fecb00 + 304
+==28762== Stopped using memory range 0x5fec940 + 40
+==28762== Started using memory range 0x5fec940 + 40
+==28762== Started using memory range 0x5fecc50 + 164
+==28762== Stopped using memory range 0x5fec940 + 40
+==28762== Started using memory range 0x5fecd20 + 96
+==28762== Started using memory range 0x5fecda0 + 64
+==28762== Started using memory range 0x5fec940 + 36
+==28762== Stopped using memory range 0x5fecc50 + 164
+==28762== Stopped using memory range 0x5fecb00 + 304
+==28762== Started using memory range 0x5fecb00 + 40
+==28762== Started using memory range 0x5fecb50 + 284
+==28762== Stopped using memory range 0x5fecb00 + 40
+==28762== Started using memory range 0x5fecb00 + 40
+==28762== Started using memory range 0x5fecc90 + 84
+==28762== Stopped using memory range 0x5fecb00 + 40
+==28762== Started using memory range 0x5fece00 + 96
+==28762== Started using memory range 0x5fece80 + 60
+==28762== Started using memory range 0x5fda110 + 28
+==28762== Stopped using memory range 0x5fecc90 + 84
+==28762== Stopped using memory range 0x5fecb50 + 284
+==28762== Started using memory range 0x5fecb00 + 40
+==28762== Started using memory range 0x5fecb50 + 304
+==28762== Stopped using memory range 0x5fecb00 + 40
+==28762== Started using memory range 0x5fecb00 + 40
+==28762== Started using memory range 0x5fecee0 + 244
+==28762== Stopped using memory range 0x5fecb00 + 40
+==28762== Started using memory range 0x5fecca0 + 96
+==28762== Started using memory range 0x5fed000 + 64
+==28762== Started using memory range 0x5fed060 + 52
+==28762== Stopped using memory range 0x5fecee0 + 244
+==28762== Stopped using memory range 0x5fecb50 + 304
+==28762== Started using memory range 0x5fecee0 + 40
+==28762== Started using memory range 0x5fecb00 + 224
+==28762== Stopped using memory range 0x5fecee0 + 40
+==28762== Started using memory range 0x5fecc00 + 40
+==28762== Started using memory range 0x5fed0c0 + 364
+==28762== Stopped using memory range 0x5fecc00 + 40
+==28762== Started using memory range 0x5fecc00 + 96
+==28762== Started using memory range 0x5fecee0 + 48
+==28762== Started using memory range 0x5fecf30 + 76
+==28762== Stopped using memory range 0x5fed0c0 + 364
+==28762== Stopped using memory range 0x5fecb00 + 224
+==28762== Started using memory range 0x5fecfa0 + 40
+==28762== Started using memory range 0x5fed0c0 + 304
+==28762== Stopped using memory range 0x5fecfa0 + 40
+==28762== Started using memory range 0x5fecfa0 + 40
+==28762== Started using memory range 0x5fecb00 + 64
+==28762== Stopped using memory range 0x5fecfa0 + 40
+==28762== Started using memory range 0x5fecb60 + 96
+==28762== Started using memory range 0x5fecfa0 + 64
+==28762== Stopped using memory range 0x5fecb00 + 64
+==28762== Stopped using memory range 0x5fed0c0 + 304
+==28762== Started using memory range 0x5fecb00 + 40
+==28762== Started using memory range 0x5fed0c0 + 424
+==28762== Stopped using memory range 0x5fecb00 + 40
+==28762== Started using memory range 0x5fecb00 + 40
+==28762== Started using memory range 0x5fed290 + 64
+==28762== Stopped using memory range 0x5fecb00 + 40
+==28762== Started using memory range 0x5fecb00 + 40
+==28762== Started using memory range 0x5fed2f0 + 404
+==28762== Stopped using memory range 0x5fecb00 + 40
+==28762== Started using memory range 0x5fecb00 + 40
+==28762== Started using memory range 0x5fed4b0 + 164
+==28762== Stopped using memory range 0x5fecb00 + 40
+==28762== Started using memory range 0x5fed580 + 96
+==28762== Started using memory range 0x5fed600 + 84
+==28762== Started using memory range 0x5fecb00 + 36
+==28762== Stopped using memory range 0x5fed4b0 + 164
+==28762== Stopped using memory range 0x5fed2f0 + 404
+==28762== Started using memory range 0x5fed2f0 + 40
+==28762== Started using memory range 0x5fed340 + 284
+==28762== Stopped using memory range 0x5fed2f0 + 40
+==28762== Started using memory range 0x5fed2f0 + 40
+==28762== Started using memory range 0x5fed680 + 304
+==28762== Stopped using memory range 0x5fed2f0 + 40
+==28762== Started using memory range 0x5fed2f0 + 40
+==28762== Started using memory range 0x5fed480 + 204
+==28762== Stopped using memory range 0x5fed2f0 + 40
+==28762== Started using memory range 0x5fed7d0 + 96
+==28762== Started using memory range 0x5fed850 + 64
+==28762== Started using memory range 0x5fed2f0 + 44
+==28762== Stopped using memory range 0x5fed480 + 204
+==28762== Stopped using memory range 0x5fed680 + 304
+==28762== Stopped using memory range 0x5fec260 + 600
+==28762== Started using memory range 0x5fed8b0 + 1024
+==28762== Stopped using memory range 0x5fed8b0 + 1024
+==28762== Started using memory range 0x5fed8b0 + 1024
+==28762== Stopped using memory range 0x5fed8b0 + 1024
+==28762== Stopped using memory range 0x5fec0f0 + 8
+==28762== Started using memory range 0x5fed8b0 + 1024
+==28762== Stopped using memory range 0x5fed8b0 + 1024
+==28762== Thread 3:
+==28762== Recursive locking not allowed: mutex 0x5fdb7d0, recursion count 1, owner 3.
+==28762==    at 0x4C35208: pthread_mutex_lock_intercept (drd_pthread_intercepts.c:879)
+==28762==    by 0x4C35208: pthread_mutex_lock (drd_pthread_intercepts.c:892)
+==28762==    by 0x11DC24: __gthread_mutex_lock(pthread_mutex_t*) (gthr-default.h:748)
+==28762==    by 0x11E2BF: std::mutex::lock() (std_mutex.h:103)
+==28762==    by 0x12033B: std::lock_guard<std::mutex>::lock_guard(std::mutex&) (std_mutex.h:162)
+==28762==    by 0x11E710: Fastcgipp::Request_base::messagesEmpty() (request.hpp:84)
+==28762==    by 0x4F21ABB: Fastcgipp::Manager_base::handler() (manager.cpp:300)
+==28762==    by 0x4F2B79D: void std::__invoke_impl<void, void (Fastcgipp::Manager_base::* const&)(), Fastcgipp::Manager_base*>(std::__invoke_memfun_deref, void (Fastcgipp::Manager_base::* const&)(), Fastcgipp::Manager_base*&&) (functional:227)
+==28762==    by 0x4F2B72A: std::result_of<void (Fastcgipp::Manager_base::* const&(Fastcgipp::Manager_base*&&))()>::type std::__invoke<void (Fastcgipp::Manager_base::* const&)(), Fastcgipp::Manager_base*>(void (Fastcgipp::Manager_base::* const&)(), Fastcgipp::Manager_base*&&) (functional:251)
+==28762==    by 0x4F2B6DB: decltype (__invoke((*this)._M_pmf, (forward<Fastcgipp::Manager_base*>)({parm#1}))) std::_Mem_fn_base<void (Fastcgipp::Manager_base::*)(), true>::operator()<Fastcgipp::Manager_base*>(Fastcgipp::Manager_base*&&) const (functional:604)
+==28762==    by 0x4F2B6A6: void std::_Bind_simple<std::_Mem_fn<void (Fastcgipp::Manager_base::*)()> (Fastcgipp::Manager_base*)>::_M_invoke<0ul>(std::_Index_tuple<0ul>) (functional:1391)
+==28762==    by 0x4F2B5F4: std::_Bind_simple<std::_Mem_fn<void (Fastcgipp::Manager_base::*)()> (Fastcgipp::Manager_base*)>::operator()() (functional:1380)
+==28762==    by 0x4F2B5D3: std::thread::_State_impl<std::_Bind_simple<std::_Mem_fn<void (Fastcgipp::Manager_base::*)()> (Fastcgipp::Manager_base*)> >::_M_run() (thread:197)
+==28762== mutex 0x5fdb7d0 was first observed at:
+==28762==    at 0x4C35208: pthread_mutex_lock_intercept (drd_pthread_intercepts.c:879)
+==28762==    by 0x4C35208: pthread_mutex_lock (drd_pthread_intercepts.c:892)
+==28762==    by 0x11DC24: __gthread_mutex_lock(pthread_mutex_t*) (gthr-default.h:748)
+==28762==    by 0x11E2BF: std::mutex::lock() (std_mutex.h:103)
+==28762==    by 0x12033B: std::lock_guard<std::mutex>::lock_guard(std::mutex&) (std_mutex.h:162)
+==28762==    by 0x4F23032: Fastcgipp::Request_base::push(Fastcgipp::Message&&) (request.hpp:76)
+==28762==    by 0x4F22409: Fastcgipp::Manager_base::push(Fastcgipp::Protocol::RequestId, Fastcgipp::Message&&) (manager.cpp:432)
+==28762==    by 0x4F2AB8F: void std::__invoke_impl<void, void (Fastcgipp::Manager_base::* const&)(Fastcgipp::Protocol::RequestId, Fastcgipp::Message&&), Fastcgipp::Manager_base*&, Fastcgipp::Protocol::RequestId, Fastcgipp::Message>(std::__invoke_memfun_deref, void (Fastcgipp::Manager_base::* const&)(Fastcgipp::Protocol::RequestId, Fastcgipp::Message&&), Fastcgipp::Manager_base*&, Fastcgipp::Protocol::RequestId&&, Fastcgipp::Message&&) (functional:227)
+==28762==    by 0x4F2A0E7: std::result_of<void (Fastcgipp::Manager_base::* const&(Fastcgipp::Manager_base*&, Fastcgipp::Protocol::RequestId&&, Fastcgipp::Message&&))(Fastcgipp::Protocol::RequestId, Fastcgipp::Message&&)>::type std::__invoke<void (Fastcgipp::Manager_base::* const&)(Fastcgipp::Protocol::RequestId, Fastcgipp::Message&&), Fastcgipp::Manager_base*&, Fastcgipp::Protocol::RequestId, Fastcgipp::Message>(void (Fastcgipp::Manager_base::* const&)(Fastcgipp::Protocol::RequestId, Fastcgipp::Message&&), Fastcgipp::Manager_base*&, Fastcgipp::Protocol::RequestId&&, Fastcgipp::Message&&) (functional:251)
+==28762==    by 0x4F29483: decltype (__invoke((*this)._M_pmf, (forward<Fastcgipp::Manager_base*&>)({parm#1}), (forward<Fastcgipp::Protocol::RequestId>)({parm#1}), (forward<Fastcgipp::Message>)({parm#1}))) std::_Mem_fn_base<void (Fastcgipp::Manager_base::*)(Fastcgipp::Protocol::RequestId, Fastcgipp::Message&&), true>::operator()<Fastcgipp::Manager_base*&, Fastcgipp::Protocol::RequestId, Fastcgipp::Message>(Fastcgipp::Manager_base*&, Fastcgipp::Protocol::RequestId&&, Fastcgipp::Message&&) const (functional:604)
+==28762==    by 0x4F28489: void std::_Bind<std::_Mem_fn<void (Fastcgipp::Manager_base::*)(Fastcgipp::Protocol::RequestId, Fastcgipp::Message&&)> (Fastcgipp::Manager_base*, std::_Placeholder<1>, std::_Placeholder<2>)>::__call<void, Fastcgipp::Protocol::RequestId&&, Fastcgipp::Message&&, 0ul, 1ul, 2ul>(std::tuple<Fastcgipp::Protocol::RequestId&&, Fastcgipp::Message&&>&&, std::_Index_tuple<0ul, 1ul, 2ul>) (functional:934)
+==28762==    by 0x4F26957: void std::_Bind<std::_Mem_fn<void (Fastcgipp::Manager_base::*)(Fastcgipp::Protocol::RequestId, Fastcgipp::Message&&)> (Fastcgipp::Manager_base*, std::_Placeholder<1>, std::_Placeholder<2>)>::operator()<Fastcgipp::Protocol::RequestId, Fastcgipp::Message, void>(Fastcgipp::Protocol::RequestId&&, Fastcgipp::Message&&) (functional:993)
+==28762==    by 0x4F25176: std::_Function_handler<void (Fastcgipp::Protocol::RequestId, Fastcgipp::Message&&), std::_Bind<std::_Mem_fn<void (Fastcgipp::Manager_base::*)(Fastcgipp::Protocol::RequestId, Fastcgipp::Message&&)> (Fastcgipp::Manager_base*, std::_Placeholder<1>, std::_Placeholder<2>)> >::_M_invoke(std::_Any_data const&, Fastcgipp::Protocol::RequestId&&, Fastcgipp::Message&&) (functional:1731)
+==28762== 
+==28762== Started using memory range 0x5fed8b0 + 1024
+==28762== Stopped using memory range 0x5fed8b0 + 1024
+==28762== Started using memory range 0x5fed8b0 + 1024
+==28762== Stopped using memory range 0x5fed8b0 + 1024
+==28762== Started using memory range 0x5fec0f0 + 8
+==28762== Started using memory range 0x5fed8b0 + 1024
+==28762== Stopped using memory range 0x5fed8b0 + 1024
+==28762== Stopped using memory range 0x5fd9da0 + 64
+==28762== Stopped using memory range 0x5fec0f0 + 8
+==28762== Stopped using memory range 0x5fd9e00 + 80
+==28762== Started using memory range 0x5fed8b0 + 1024
+==28762== Stopped using memory range 0x5fed8b0 + 1024
+==28762== Started using memory range 0x5fed8b0 + 1024
+==28762== Stopped using memory range 0x5fed8b0 + 1024
+==28762== Started using memory range 0x5fed8b0 + 1024
+==28762== Stopped using memory range 0x5fed8b0 + 1024
+==28762== 
+==28762== Process terminating with default action of signal 2 (SIGINT)
+==28762==    at 0x51746DD: pthread_join (pthread_join.c:90)
+==28762==    by 0x4C32FAF: pthread_join_intercept (drd_pthread_intercepts.c:702)
+==28762==    by 0x4C32FAF: pthread_join (drd_pthread_intercepts.c:712)
+==28762==    by 0x54430F6: __gthread_join (gthr-default.h:668)
+==28762==    by 0x54430F6: std::thread::join() (thread.cc:136)
+==28762==    by 0x4F21380: Fastcgipp::Manager_base::join() (manager.cpp:95)
+==28762==    by 0x11DE3C: main (multi_uri_router.cpp:318)
+==28762== 
+==28762== For counts of detected and suppressed errors, rerun with: -v
+==28762== ERROR SUMMARY: 1 errors from 1 contexts (suppressed: 1473 from 799)

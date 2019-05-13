@@ -168,9 +168,11 @@ std::string wstring2string(const std::wstring &toConvert);
 template<typename ... Args>
 static int vlog( const char * format, Args ... args ) {
     std::lock_guard<std::mutex> lock(::Fastcgipp::Logging::mutex);
-    //int ret = dprintf(STDERR_FILENO, format.c_str(), args ...);
     int ret = dprintf(STDERR_FILENO, format, args ...);
+    //int ret = fprintf(stderr, format, args ...);
     fsync(STDERR_FILENO);
+    //fflush(stderr);
+
     return ret;
 }
 
@@ -180,7 +182,9 @@ static int vwlog( const wchar_t * format, Args ... args ) {
     std::lock_guard<std::mutex> lock(::Fastcgipp::Logging::mutex);
     //int ret = dprintf(STDERR_FILENO, format.c_str(), args ...);
     int ret = fwprintf(stderr, format, args ...);
-    fsync(STDERR_FILENO);
+    //fsync(STDERR_FILENO);
+    fflush(stderr);
+
     return ret;
 }
 

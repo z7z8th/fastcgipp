@@ -305,9 +305,9 @@ namespace Fastcgipp
                 const char* end,
                 std::string& string)
         {
-            std::string tmp;
-            tmp.assign(start, end);
-            vlog("%s %s\n", __func__, tmp.c_str());
+            //std::string tmp;
+            //tmp.assign(start, end);
+            //vlog("%s %s\n", __func__, tmp.c_str());
             string.assign(start, end);
         }
 
