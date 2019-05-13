@@ -80,7 +80,8 @@ namespace Fastcgipp
             header.paddingLength =
                 record.size()-header.contentLength-sizeof(Protocol::Header);
 
-            send(m_id.m_socket, std::move(record));
+            if (send)
+                send(m_id.m_socket, std::move(record));
         }
 
         return true;

@@ -30,18 +30,22 @@ set(EXAMPLES
     "gnu"
     "sessions"
     "email"
-    "timer")
+    "timer"
+    "multi_uri_router")
 
 # Set up our log level for fastcgi++/log.hpp
 if(NOT LOG_LEVEL)
     if(CMAKE_BUILD_TYPE STREQUAL "RELEASE")
         set(LOG_LEVEL 1)
     elseif(CMAKE_BUILD_TYPE STREQUAL "DEBUG")
-        set(LOG_LEVEL 3)
+        set(LOG_LEVEL 4)
     else()
         set(LOG_LEVEL 2)
     endif()
 endif()
+
+message("*** CMAKE_BUILD_TYPE " ${CMAKE_BUILD_TYPE})
+message("*** LOG_LEVEL " ${LOG_LEVEL})
 
 # We'll need this stuff for sockets stuff
 if(CMAKE_SYSTEM_NAME STREQUAL "Linux")
@@ -118,6 +122,9 @@ set(CMAKE_CXX_EXTENSIONS off)
 if(UNIX)
     if(CMAKE_CXX_COMPILER_ID MATCHES "GNU" OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
         target_compile_options(fastcgipp PRIVATE -Wall -Werror -fno-omit-frame-pointer)
+    endif()
+    if(CMAKE_BUILD_TYPE MATCHES "Debug")
+        target_compile_options(fastcgipp PRIVATE -g -O0 -rdynamic)
     endif()
 endif(UNIX)
 
@@ -198,6 +205,9 @@ add_custom_target(tests DEPENDS ${TEST_TARGET})
 # Examples
 foreach(EXAMPLE IN LISTS EXAMPLES)
     add_executable(${EXAMPLE}.fcgi EXCLUDE_FROM_ALL examples/${EXAMPLE}.cpp)
+    if(CMAKE_BUILD_TYPE MATCHES "Debug")
+        target_compile_options(${EXAMPLE}.fcgi PRIVATE -g -O0 -rdynamic)
+    endif()
     target_link_libraries(${EXAMPLE}.fcgi PRIVATE Fastcgipp::fastcgipp)
     list(APPEND EXAMPLE_TARGETS ${EXAMPLE}.fcgi)
 endforeach()

@@ -8,6 +8,8 @@ class HelloWorld: public Fastcgipp::Request<wchar_t>
     //! [Response definition]
     bool response()
     {
+        vlog("%s\n", __PRETTY_FUNCTION__);
+
         //! [Response definition]
         //! [HTTP header]
         out << L"Content-Type: text/html; charset=utf-8\r\n\r\n";
@@ -45,7 +47,7 @@ L"</html>";
 
 int main()
 {
-    Fastcgipp::Manager<HelloWorld> manager;
+    Fastcgipp::Manager<HelloWorld> manager(1);
     //! [Manager]
     //! [Signals]
     manager.setupSignals();

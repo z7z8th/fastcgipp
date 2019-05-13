@@ -202,6 +202,7 @@ namespace Fastcgipp
     private:
         //! Our respective SocketGroup needs private access.
         friend class SocketGroup;
+        friend class Transceiver;
 
         //! Data structure to hold the shared socket data.
         struct Data

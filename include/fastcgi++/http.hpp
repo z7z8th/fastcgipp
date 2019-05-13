@@ -38,6 +38,7 @@
 #include <ctime>
 #include <atomic>
 
+
 #include "fastcgi++/protocol.hpp"
 #include "fastcgi++/address.hpp"
 
@@ -267,6 +268,7 @@ namespace Fastcgipp
                 remotePort(0),
                 ifModifiedSince(0)
             {}
+            Environment(Environment&& rhs) = default;
         private:
             //! Parses "multipart/form-data" http post data
             inline void parsePostsMultipart();
@@ -303,6 +305,9 @@ namespace Fastcgipp
                 const char* end,
                 std::string& string)
         {
+            std::string tmp;
+            tmp.assign(start, end);
+            vlog("%s %s\n", __func__, tmp.c_str());
             string.assign(start, end);
         }
 

@@ -238,6 +238,12 @@ namespace Fastcgipp
         WebStreambuf():
             m_encoding(Encoding::NONE)
         {}
+    public:
+        WebStreambuf(WebStreambuf&& rhs) :
+                            std::basic_streambuf<charT, traits>::basic_streambuf(std::move(rhs)),
+                            m_encoding(rhs.m_encoding)
+        {
+        }
     };
 }
 

@@ -31,6 +31,7 @@
 #include "fastcgi++/log.hpp"
 bool Fastcgipp::Transceiver::transmit()
 {
+    vlog("%s sendBuffer.size %zd \n", __PRETTY_FUNCTION__, m_sendBuffer.size());
     std::unique_ptr<Record> record;
 
     while(!m_sendBuffer.empty())
@@ -39,6 +40,7 @@ bool Fastcgipp::Transceiver::transmit()
             std::lock_guard<std::mutex> lock(m_sendBufferMutex);
             record = std::move(m_sendBuffer.front());
             m_sendBuffer.pop_front();
+            vlog("send record socket_t %d\n", record->socket.m_data->m_socket);
         }
 
         const ssize_t sent = record->socket.write(
@@ -207,6 +209,9 @@ void Fastcgipp::Transceiver::send(
         Block&& data,
         bool kill)
 {
+    //print_backtrace();
+    vlog("%s socket_t %d m_original %d kill %d\n", __PRETTY_FUNCTION__, 
+        socket.valid() ? socket.m_data->m_socket : -1, socket.m_original, kill);
     std::unique_ptr<Record> record(new Record(
                 socket,
                 std::move(data),

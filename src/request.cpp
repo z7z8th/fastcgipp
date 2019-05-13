@@ -31,6 +31,7 @@
 
 template<class charT> void Fastcgipp::Request<charT>::complete()
 {
+    vlog("%s kill %d\n", __PRETTY_FUNCTION__, m_kill);
     out.flush();
     err.flush();
 
@@ -56,8 +57,9 @@ template<class charT>
 std::unique_lock<std::mutex>Fastcgipp::Request<charT>::handler()
 {
     std::unique_lock<std::mutex> lock(m_messagesMutex);
-    while(!m_messages.empty())
+    while(!needUpgrade() && !m_messages.empty())
     {
+        vlog("in while %s needUpgrade %d m_messages.size() %d\n", __func__, needUpgrade(), m_messages.size());
         Message message = std::move(m_messages.front());
         m_messages.pop();
         lock.unlock();
@@ -107,6 +109,9 @@ std::unique_lock<std::mutex>Fastcgipp::Request<charT>::handler()
                             goto exit;
                         }
                         m_state = Protocol::RecordType::IN;
+                        needUpgrade(true);
+                        vwlog(L"request parsed requestUri %ls\n", environment().requestUri.c_str());
+                        vlog("needUpgrade(true); m_messages.size %zd\n", m_messages.size());
                         lock.lock();
                         continue;
                     }
@@ -165,6 +170,7 @@ std::unique_lock<std::mutex>Fastcgipp::Request<charT>::handler()
         lock.lock();
     }
 exit:
+    vlog("exit %s needUpgrade %d m_messages.size() %d\n", __func__, needUpgrade(), m_messages.size());
     return lock;
 }
 
@@ -237,6 +243,25 @@ template<class charT> void Fastcgipp::Request<charT>::configure(
             std::bind(send, _1, _2, false));
     m_errStreamBuffer.configure(
             id,
+            Protocol::RecordType::ERR,
+            std::bind(send, _1, _2, false));
+}
+
+template<class charT> void Fastcgipp::Request<charT>::configureOp(
+        const std::function<void(const Socket&, Block&&, bool)> send,
+        const std::function<void(Message)> callback)
+{
+    using namespace std::placeholders;
+    
+    m_callback=callback;
+    m_send=send;
+
+    m_outStreamBuffer.configure(
+            m_id,
+            Protocol::RecordType::OUT,
+            std::bind(send, _1, _2, false));
+    m_errStreamBuffer.configure(
+            m_id,
             Protocol::RecordType::ERR,
             std::bind(send, _1, _2, false));
 }

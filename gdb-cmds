@@ -1,0 +1,9 @@
+
+#catch throw
+#add-symbol-file ./multi_uri_router.fcgi
+
+set breakpoint pending on
+#break Fastcgipp::Transceiver::send
+#break /home/bob/src/fastcgipp/src/sockets.cpp:569
+
+run -p 2000 -n ./multi_uri_router.fcgi

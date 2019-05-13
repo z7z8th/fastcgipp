@@ -158,4 +158,34 @@ namespace Fastcgipp
 #define DIAG_LOG(data) {}
 #endif
 
+#include <locale>
+#include <codecvt>
+std::string wstring2string(const std::wstring &toConvert);
+
+#include <unistd.h>
+#include <stdio.h>
+
+template<typename ... Args>
+static int vlog( const char * format, Args ... args ) {
+    std::lock_guard<std::mutex> lock(::Fastcgipp::Logging::mutex);
+    //int ret = dprintf(STDERR_FILENO, format.c_str(), args ...);
+    int ret = dprintf(STDERR_FILENO, format, args ...);
+    fsync(STDERR_FILENO);
+    return ret;
+}
+
+
+template<typename ... Args>
+static int vwlog( const wchar_t * format, Args ... args ) {
+    std::lock_guard<std::mutex> lock(::Fastcgipp::Logging::mutex);
+    //int ret = dprintf(STDERR_FILENO, format.c_str(), args ...);
+    int ret = fwprintf(stderr, format, args ...);
+    fsync(STDERR_FILENO);
+    return ret;
+}
+
+void print_backtrace();
+void faultHandler(int sig = -1);
+void terminateHandler();
+
 #endif

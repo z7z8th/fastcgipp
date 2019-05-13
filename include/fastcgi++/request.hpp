@@ -29,6 +29,7 @@
 #ifndef FASTCGIPP_REQUEST_HPP
 #define FASTCGIPP_REQUEST_HPP
 
+#include "fastcgi++/log.hpp"
 #include "fastcgi++/protocol.hpp"
 #include "fastcgi++/fcgistreambuf.hpp"
 #include "fastcgi++/http.hpp"
@@ -44,7 +45,12 @@ namespace Fastcgipp
     //! De-templating base class for Request
     class Request_base
     {
+        using type = Request_base;
     public:
+        Request_base() = default;
+        Request_base(Request_base&& oldReq) : m_messages(std::move(oldReq.m_messages))
+        {
+        }
         //! Request Handler
         /*!
          * This function is called by Manager::handler() to handle messages
@@ -69,7 +75,10 @@ namespace Fastcgipp
         {
             std::lock_guard<std::mutex> lock(m_messagesMutex);
             m_messages.push(std::move(message));
+            vlog("+++ Request_base::push message m_messages.size() %d\n", m_messages.size());
         }
+
+        virtual bool needUpgrade() = 0;
 
     protected:
         //! A queue of message for the request
@@ -99,6 +108,7 @@ namespace Fastcgipp
      */
     template<class charT> class Request: public Request_base
     {
+        using type = Request;
     public:
         //! Initializes what it can. configure() to finish.
         /*!
@@ -120,6 +130,36 @@ namespace Fastcgipp
         {
             out.imbue(std::locale("C"));
             err.imbue(std::locale("C"));
+        }
+
+        Request(Request&& rhs):
+                    Request_base(std::move(rhs)),
+                    out(&m_outStreamBuffer),
+                    err(&m_errStreamBuffer),
+                    //m_message(rhs.m_message),
+                    m_callback(rhs.m_callback),
+                    m_environment(std::move(rhs.m_environment)),
+                    m_maxPostSize(std::move(rhs.m_maxPostSize)),
+                    m_role(rhs.m_role),
+                    m_id(rhs.m_id),
+                    m_kill(rhs.m_kill),
+                    m_state(rhs.m_state),
+                    m_send(rhs.m_send),
+                    m_status(rhs.m_status)
+        {
+            using namespace std::placeholders;
+            
+            out.imbue(std::locale("C"));
+            err.imbue(std::locale("C"));
+
+            m_outStreamBuffer.configure(
+                m_id,
+                Protocol::RecordType::OUT,
+                std::bind(m_send, _1, _2, false));
+            m_errStreamBuffer.configure(
+                m_id,
+                Protocol::RecordType::ERR,
+                std::bind(m_send, _1, _2, false));
         }
 
         //! Configures the request with the data it needs.
@@ -144,9 +184,32 @@ namespace Fastcgipp
                     send,
                 const std::function<void(Message)> callback);
 
+        void configureOp(
+                const std::function<void(const Socket&, Block&&, bool)> send,
+                const std::function<void(Message)> callback);
+
         std::unique_lock<std::mutex> handler();
 
-        virtual ~Request() {}
+        virtual ~Request() {
+            vlog("%s m_messages.size() %d\n", __func__, m_messages.size());
+        }
+
+        Protocol::RequestId id() {
+            return m_id;
+        }
+
+        virtual bool needUpgrade() {
+            return m_upgradable && m_needUpgrade;
+        }
+        void needUpgrade(bool upgrade) {
+            m_needUpgrade = upgrade;
+        }
+        void enableUpgrade() {
+            m_upgradable = true;
+        }
+        std::basic_string<charT> requestUri() {
+            return m_environment.requestUri;
+        }
 
     protected:
         //! Const accessor for the HTTP environment data
@@ -227,7 +290,9 @@ namespace Fastcgipp
          * @return Boolean value indication completion (true means complete)
          * @sa callback
          */
-        virtual bool response() =0;
+        virtual bool response() {
+            return true;
+        }
 
         //! Generate a data input response
         /*!
@@ -382,7 +447,16 @@ namespace Fastcgipp
 
         //! Codepage
         inline const char* codepage() const;
+
+        bool m_needUpgrade = false;
+        bool m_upgradable = false;
     };
+
+    template <typename charT, typename RequestT>
+    std::unique_ptr<Request<charT>> RequestCreator(Request<charT>&& oldReq) {
+        std::unique_ptr<Request<charT>> request(new RequestT(std::move(oldReq)));
+        return request;
+    }
 }
 
 #endif

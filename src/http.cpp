@@ -32,6 +32,8 @@
 #include <iomanip>
 #include <random>
 
+#include <iostream>
+
 #include "fastcgi++/log.hpp"
 #include "fastcgi++/http.hpp"
 
@@ -41,6 +43,10 @@ void Fastcgipp::Http::vecToString(
         const char* end,
         std::wstring& string)
 {
+    std::string tmp;
+    tmp.assign(start, end);
+    vlog("%s %s\n", __func__, tmp.c_str());
+
     std::wstring_convert<std::codecvt_utf8<wchar_t>, wchar_t> converter;
     try
     {
@@ -230,9 +236,11 @@ template<class charT> void Fastcgipp::Http::Environment<charT>::fill(
                 remotePort=atoi(&*value, &*end);
             else if(std::equal(name, value, "SCRIPT_NAME"))
                 vecToString(value, end, scriptName);
-            else if(std::equal(name, value, "REQUEST_URI"))
+            else if(std::equal(name, value, "REQUEST_URI")) {
                 vecToString(value, end, requestUri);
-            else
+                std::wcerr<< L"requestUri " << requestUri << std::endl;
+                vwlog(L"+++ env got requestUri %ls\n", requestUri.c_str());
+            } else
                 processed=false;
             break;
         case 12:

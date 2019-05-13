@@ -80,6 +80,7 @@ Fastcgipp::Poll::Result Fastcgipp::Poll::poll(int timeout)
     int pollResult;
 #ifdef FASTCGIPP_LINUX
     epoll_event epollEvent;
+    vlog("--- epoll_wait before\n");
     pollResult = epoll_wait(
             m_poll,
             &epollEvent,
@@ -91,6 +92,8 @@ Fastcgipp::Poll::Result Fastcgipp::Poll::poll(int timeout)
             m_poll.size(),
             timeout);
 #endif
+
+    vlog("--- epoll_wait return\n");
 
     Result result;
 
@@ -117,6 +120,7 @@ Fastcgipp::Poll::Result Fastcgipp::Poll::poll(int timeout)
 #endif
     }
 
+    vlog("Poll::poll result socket %d event 0x%x\n", result.m_socket, result.m_events);
     return result;
 }
 
@@ -168,10 +172,12 @@ ssize_t Fastcgipp::Socket::read(char* buffer, size_t size) const
 
 ssize_t Fastcgipp::Socket::write(const char* buffer, size_t size) const
 {
+    vlog("%s buffer %p size %zd valid %d m_closing %d\n", __PRETTY_FUNCTION__, buffer, size, valid(), m_data->m_closing);
     if(!valid() || m_data->m_closing)
         return -1;
 
     const ssize_t count = ::send(m_data->m_socket, buffer, size, MSG_NOSIGNAL);
+    vlog("%s count %zu\n", __PRETTY_FUNCTION__, count);
     if(count<0)
     {
         if(errno == EAGAIN || errno == EWOULDBLOCK)
@@ -191,6 +197,8 @@ ssize_t Fastcgipp::Socket::write(const char* buffer, size_t size) const
 
 void Fastcgipp::Socket::close() const
 {
+    print_backtrace();
+    vlog("Socket::close() socket_t %d valid %d\n", valid() ? m_data->m_socket : -1, valid());
     if(valid())
     {
         ::shutdown(m_data->m_socket, SHUT_RDWR);
@@ -207,8 +215,10 @@ void Fastcgipp::Socket::close() const
 
 Fastcgipp::Socket::~Socket()
 {
+    vlog("%s socket_t %d m_original %d valid %d\n", __func__, valid() ? m_data->m_socket : -1, m_original, valid());
     if(m_original && valid())
     {
+        vlog("*** %s do shutdown && close socket_t %d\n", __func__, m_data->m_socket);
         ::shutdown(m_data->m_socket, SHUT_RDWR);
         m_data->m_group.m_poll.del(m_data->m_socket);
         ::close(m_data->m_socket);

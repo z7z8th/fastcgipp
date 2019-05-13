@@ -95,6 +95,11 @@ namespace Fastcgipp
                 m_id(badFcgiId)
             {}
 
+            RequestId(RequestId&& rhs):
+                m_socket(std::move(rhs.m_socket)),
+                m_id(rhs.m_id)
+            {}
+
             RequestId& operator=(const RequestId& x)
             {
                 m_socket = x.m_socket;
