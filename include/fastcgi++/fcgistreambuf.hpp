@@ -63,12 +63,12 @@ namespace Fastcgipp
 
         FcgiStreambuf(FcgiStreambuf&& rhs):
             WebStreambuf<charT, traits>(std::move(rhs)),
-            m_id(rhs.m_id),
+            m_id(std::move(rhs.m_id)),
             m_type(rhs.m_type),
-            send(rhs.send)
+            send(std::move(rhs.send))
         {
             vlog("*** %s called\n", __PRETTY_FUNCTION__);
-            this->setp(m_buffer, m_buffer+s_buffSize);
+            //this->setp(m_buffer, m_buffer+s_buffSize);
             //rhs.flush();
             //rhs.send = nullptr;
         }

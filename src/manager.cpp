@@ -285,12 +285,12 @@ void Fastcgipp::Manager_base::handler()
                 {
                     if (request->second->needUpgrade()) {
                         requestsWriteLock.lock();
+                        requestLock.unlock();
                         auto newReq = upgradeRequest(std::move(request->second));
                         if (newReq) {
-                            requestLock.unlock();
                             request->second = std::move(newReq);
-                            requestLock = std::unique_lock<std::mutex>(request->second->mutex, std::try_to_lock);
                         }
+                        requestLock = std::unique_lock<std::mutex>(request->second->mutex, std::try_to_lock);
                         requestsWriteLock.unlock();
                     }
                 }

@@ -222,6 +222,25 @@ template<class charT> void Fastcgipp::Request<charT>::unknownContentErrorHandler
 "</html>";
 }
 
+template<class charT> bool Fastcgipp::Request<charT>::response() {
+    vlog("\n*** response not implemented. return 404.\n\n");
+    out << 
+R"(Status: 404 Not Found
+Content-Type: text/html; charset=utf-8
+
+<!DOCTYPE html>
+<html lang='en'>
+    <head>
+        <title>Not Implemented</title>
+    </head>
+    <body>
+        <h1>Not Implemented</h1>
+        <h2>This is the default reponse()</h2>
+    </body>
+</html>)";
+    return true;
+}
+
 template<class charT> void Fastcgipp::Request<charT>::configure(
         const Protocol::RequestId& id,
         const Protocol::Role& role,

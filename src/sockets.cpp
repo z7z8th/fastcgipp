@@ -197,7 +197,7 @@ ssize_t Fastcgipp::Socket::write(const char* buffer, size_t size) const
 
 void Fastcgipp::Socket::close() const
 {
-    print_backtrace();
+    //print_backtrace();
     vlog("Socket::close() socket_t %d valid %d\n", valid() ? m_data->m_socket : -1, valid());
     if(valid())
     {

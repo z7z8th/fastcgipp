@@ -145,13 +145,15 @@ namespace Fastcgipp
                     m_kill(rhs.m_kill),
                     m_state(rhs.m_state),
                     m_send(rhs.m_send),
-                    m_status(rhs.m_status)
+                    m_status(rhs.m_status),
+                    m_outStreamBuffer(std::move(rhs.m_outStreamBuffer)),
+                    m_errStreamBuffer(std::move(rhs.m_errStreamBuffer))
         {
             using namespace std::placeholders;
             
             out.imbue(std::locale("C"));
             err.imbue(std::locale("C"));
-
+            /*
             m_outStreamBuffer.configure(
                 m_id,
                 Protocol::RecordType::OUT,
@@ -160,6 +162,7 @@ namespace Fastcgipp
                 m_id,
                 Protocol::RecordType::ERR,
                 std::bind(m_send, _1, _2, false));
+            */
         }
 
         //! Configures the request with the data it needs.
@@ -199,13 +202,13 @@ namespace Fastcgipp
         }
 
         virtual bool needUpgrade() {
-            return m_upgradable && m_needUpgrade;
+            return m_shallUpgrade && m_needUpgrade;
         }
         void needUpgrade(bool upgrade) {
             m_needUpgrade = upgrade;
         }
-        void enableUpgrade() {
-            m_upgradable = true;
+        void shallUpgrade(bool enable) {
+            m_shallUpgrade = enable;
         }
         std::basic_string<charT> requestUri() {
             return m_environment.requestUri;
@@ -290,9 +293,7 @@ namespace Fastcgipp
          * @return Boolean value indication completion (true means complete)
          * @sa callback
          */
-        virtual bool response() {
-            return true;
-        }
+        virtual bool response();
 
         //! Generate a data input response
         /*!
@@ -449,7 +450,7 @@ namespace Fastcgipp
         inline const char* codepage() const;
 
         bool m_needUpgrade = false;
-        bool m_upgradable = false;
+        bool m_shallUpgrade = false;
     };
 
     template <typename charT, typename RequestT>

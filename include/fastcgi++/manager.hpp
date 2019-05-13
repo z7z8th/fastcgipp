@@ -318,11 +318,7 @@ namespace Fastcgipp
         {}
 
     protected:
-        void enableUpgrade() {
-            m_upgradable = true;
-        }
-    protected:
-        bool m_upgradable = false;
+        bool m_shallUpgradeRequest = false;
         //! Make a request object
         std::unique_ptr<Request_base> makeRequest(
                 const Protocol::RequestId& id,
@@ -338,8 +334,8 @@ namespace Fastcgipp
                     kill,
                     std::bind(&Transceiver::send, &m_transceiver, _1, _2, _3),
                     std::bind(&Manager_base::push, this, id, _1));
-            if (m_upgradable)
-                request->enableUpgrade();
+            if (m_shallUpgradeRequest)
+                request->shallUpgrade(true);
             return request;
         }
 
@@ -352,7 +348,7 @@ namespace Fastcgipp
         MultiUriRouter(unsigned threads = std::thread::hardware_concurrency()) : 
                 Manager<RequestT>::Manager(threads)
         {
-            Manager<RequestT>::enableUpgrade();
+            Manager<RequestT>::m_shallUpgradeRequest = true;
         }
     /*
         //! Make a request object
@@ -395,6 +391,7 @@ namespace Fastcgipp
             if (found == uriRouteMap.end()) {
                 //err << "no creator for " << uri;
                 vwlog(L"*** upgradeRequest no creator for %ls.\n", uri.c_str());
+                tmpReq->shallUpgrade(false);
                 return tmpReq;
             }
             const auto& creator = found->second;

@@ -46,6 +46,7 @@ endif()
 
 message("*** CMAKE_BUILD_TYPE " ${CMAKE_BUILD_TYPE})
 message("*** LOG_LEVEL " ${LOG_LEVEL})
+message("*** CMAKE_SYSTEM_NAME " ${CMAKE_SYSTEM_NAME})
 
 # We'll need this stuff for sockets stuff
 if(CMAKE_SYSTEM_NAME STREQUAL "Linux")
